@@ -1,5 +1,6 @@
 
 from fastapi import FastAPI, Depends, HTTPException, status, Form
+from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from sqlalchemy import (
@@ -222,16 +223,272 @@ class ProductResponse(BaseModel):
 
 
 # =========================
-# ROOT ENDPOINT
+# PORTFOLIO HOMEPAGE
 # =========================
 
-@app.get("/")
-def root():
-    return {
-        "message": "Product API is running"
-    }
+@app.get("/", response_class=HTMLResponse)
+async def portfolio():
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Student Portfolio - Backend Assignments</title>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 40px;
+                background: #f5f5f5;
+            }
+
+            .container {
+                max-width: 900px;
+                margin: 0 auto;
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            h1 {
+                color: #2c3e50;
+                border-bottom: 3px solid #3498db;
+                padding-bottom: 10px;
+            }
+
+            .student-info {
+                background: #e8f4fd;
+                padding: 15px;
+                border-radius: 8px;
+                margin: 20px 0;
+            }
+
+            .assignment {
+                margin: 12px 0;
+                padding: 15px;
+                background: #f8f9fa;
+                border-radius: 8px;
+                border-left: 4px solid #3498db;
+            }
+
+            .assignment a {
+                color: #0366d6;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+            .assignment a:hover {
+                text-decoration: underline;
+            }
+
+            .lesson-topic {
+                color: #7f8c8d;
+                font-size: 0.9em;
+            }
+
+            .footer {
+                margin-top: 30px;
+                text-align: center;
+                color: #95a5a6;
+                font-size: 0.9em;
+                border-top: 1px solid #ecf0f1;
+                padding-top: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+    <div class="container">
+
+        <h1>📚 Backend Development Portfolio</h1>
+
+        <div class="student-info">
+
+            <p>
+                <strong>student name:</strong>
+                FRANKLINE MUCHUI MUTUA
+            </p>
+
+            <p>
+                <strong>student registration number:</strong>
+                C027-01-0872/2024
+            </p>
+
+            <p>
+                <strong>student email:</strong>
+            frankline.muchui@students.dkut.ac.ke
+            </p>
+
+        </div>
+
+        <h2>📝 Backend Assignments</h2>
+
+        <p>
+            Click on any assignment to view the complete code on GitHub.
+        </p>
 
 
+        <!-- LESSON 1 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/gighub.api" target="_blank">
+                <strong>Lesson 1</strong>
+                — HTTP & Your First API
+            </a>
+
+            <span class="lesson-topic">
+                — FastAPI + Uvicorn, HTTP Methods, Status Codes
+            </span>
+        </div>
+
+
+        <!-- LESSON 2 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/cit-backend-course" target="_blank">
+                <strong>Lesson 2</strong>
+                — Docker - Packaging Your API
+            </a>
+
+            <span class="lesson-topic">
+                — Containers, Dockerfiles, Docker Compose
+            </span>
+        </div>
+
+
+        <!-- LESSON 3 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/library-api" target="_blank">
+                <strong>Lesson 3</strong>
+                — Routing, Parameters & Request Bodies
+            </a>
+
+            <span class="lesson-topic">
+                — Path Parameters, Query Parameters, Pydantic Validation
+            </span>
+        </div>
+
+
+        <!-- LESSON 4 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/healthtrack-api" target="_blank">
+                <strong>Lesson 4</strong>
+                — PostgreSQL & SQLModel – Your First Database
+            </a>
+
+            <span class="lesson-topic">
+                — ORM, Database Migrations, SQLModel
+            </span>
+        </div>
+
+
+        <!-- LESSON 5 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/product-api" target="_blank">
+                <strong>Lesson 5</strong>
+                — CRUD Operations
+            </a>
+
+            <span class="lesson-topic">
+                — Create, Read, Update, Delete with Error Handling
+            </span>
+        </div>
+
+
+        <!-- LESSON 6 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/product-api" target="_blank">
+                <strong>Lesson 6</strong>
+                — Error Handling & Validation
+            </a>
+
+            <span class="lesson-topic">
+                — HTTPException, Custom Validators, Global Handlers
+            </span>
+        </div>
+
+
+        <!-- LESSON 7 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/healthtrack-api" target="_blank">
+                <strong>Lesson 7</strong>
+                — User Authentication – JWT & Password Hashing
+            </a>
+
+            <span class="lesson-topic">
+                — JWT Tokens, bcrypt, Login/Register Endpoints
+            </span>
+        </div>
+
+
+        <!-- LESSON 8 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/clinicguard-api" target="_blank">
+                <strong>Lesson 8</strong>
+                — Authorization & Rate Limiting
+            </a>
+
+            <span class="lesson-topic">
+                — RBAC, Dependency Injection, Rate Limiting
+            </span>
+        </div>
+
+
+        <!-- LESSON 9 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/sendit-api" target="_blank">
+                <strong>Lesson 9</strong>
+                — File Uploads & External APIs
+            </a>
+
+            <span class="lesson-topic">
+                — File Validation, httpx, Environment Variables
+            </span>
+        </div>
+
+
+        <!-- LESSON 10 -->
+
+        <div class="assignment">
+            <a href="https://github.com/Frankline912/product-api-lab10" target="_blank">
+                <strong>Lesson 10</strong>
+                — Testing & Deployment (Cloud)
+            </a>
+
+            <span class="lesson-topic">
+                — Pytest, CI/CD, Render Deployment
+            </span>
+        </div>
+
+
+        <div class="footer">
+
+            <p>
+                Deployed on Render | Last Updated: August 2026
+            </p>
+
+            <p>
+                Click on any assignment link to view the complete
+                source code on GitHub
+            </p>
+
+        </div>
+
+    </div>
+
+    </body>
+    </html>
+    """
+
+    return HTMLResponse(content=html_content)
 # =========================
 # AUTHENTICATION ENDPOINTS
 # =========================
