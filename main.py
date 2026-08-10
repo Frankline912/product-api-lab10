@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, Depends, HTTPException, status, Form
 from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordBearer
@@ -16,6 +15,7 @@ from passlib.context import CryptContext
 from jose import jwt
 from datetime import datetime, timedelta
 from typing import Optional
+
 
 # =========================
 # APP CONFIGURATION
@@ -100,7 +100,11 @@ def create_access_token(data: dict):
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
 
     username = Column(
         String,
@@ -228,9 +232,11 @@ class ProductResponse(BaseModel):
 
 @app.get("/", response_class=HTMLResponse)
 async def portfolio():
+
     html_content = """
     <!DOCTYPE html>
     <html>
+
     <head>
         <title>Student Portfolio - Backend Assignments</title>
 
@@ -306,18 +312,18 @@ async def portfolio():
         <div class="student-info">
 
             <p>
-                <strong>student name:</strong>
+                <strong>Student Name:</strong>
                 FRANKLINE MUCHUI MUTUA
             </p>
 
             <p>
-                <strong>student registration number:</strong>
+                <strong>Student Registration Number:</strong>
                 C027-01-0872/2024
             </p>
 
             <p>
-                <strong>student email:</strong>
-            frankline.muchui@students.dkut.ac.ke
+                <strong>Student Email:</strong>
+                frankline.muchui@students.dkut.ac.ke
             </p>
 
         </div>
@@ -329,11 +335,11 @@ async def portfolio():
         </p>
 
 
-        <!-- LESSON 1 -->
+        <!-- LA1 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/gighub.api" target="_blank">
-                <strong>Lesson 1</strong>
+                <strong>LA1</strong>
                 — HTTP & Your First API
             </a>
 
@@ -343,11 +349,11 @@ async def portfolio():
         </div>
 
 
-        <!-- LESSON 2 -->
+        <!-- LA2 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/cit-backend-course" target="_blank">
-                <strong>Lesson 2</strong>
+                <strong>LA2</strong>
                 — Docker - Packaging Your API
             </a>
 
@@ -357,11 +363,11 @@ async def portfolio():
         </div>
 
 
-        <!-- LESSON 3 -->
+        <!-- LA3 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/library-api" target="_blank">
-                <strong>Lesson 3</strong>
+                <strong>LA3</strong>
                 — Routing, Parameters & Request Bodies
             </a>
 
@@ -371,11 +377,11 @@ async def portfolio():
         </div>
 
 
-        <!-- LESSON 4 -->
+        <!-- LA4 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/healthtrack-api" target="_blank">
-                <strong>Lesson 4</strong>
+                <strong>LA4</strong>
                 — PostgreSQL & SQLModel – Your First Database
             </a>
 
@@ -385,11 +391,11 @@ async def portfolio():
         </div>
 
 
-        <!-- LESSON 5 -->
+        <!-- LA5 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/product-api" target="_blank">
-                <strong>Lesson 5</strong>
+                <strong>LA5</strong>
                 — CRUD Operations
             </a>
 
@@ -399,11 +405,11 @@ async def portfolio():
         </div>
 
 
-        <!-- LESSON 6 -->
+        <!-- LA6 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/product-api" target="_blank">
-                <strong>Lesson 6</strong>
+                <strong>LA6</strong>
                 — Error Handling & Validation
             </a>
 
@@ -413,11 +419,11 @@ async def portfolio():
         </div>
 
 
-        <!-- LESSON 7 -->
+        <!-- LA7 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/healthtrack-api" target="_blank">
-                <strong>Lesson 7</strong>
+                <strong>LA7</strong>
                 — User Authentication – JWT & Password Hashing
             </a>
 
@@ -427,11 +433,11 @@ async def portfolio():
         </div>
 
 
-        <!-- LESSON 8 -->
+        <!-- LA8 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/clinicguard-api" target="_blank">
-                <strong>Lesson 8</strong>
+                <strong>LA8</strong>
                 — Authorization & Rate Limiting
             </a>
 
@@ -441,11 +447,11 @@ async def portfolio():
         </div>
 
 
-        <!-- LESSON 9 -->
+        <!-- LA9 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/sendit-api" target="_blank">
-                <strong>Lesson 9</strong>
+                <strong>LA9</strong>
                 — File Uploads & External APIs
             </a>
 
@@ -455,11 +461,11 @@ async def portfolio():
         </div>
 
 
-        <!-- LESSON 10 -->
+        <!-- LA10 -->
 
         <div class="assignment">
             <a href="https://github.com/Frankline912/product-api-lab10" target="_blank">
-                <strong>Lesson 10</strong>
+                <strong>LA10</strong>
                 — Testing & Deployment (Cloud)
             </a>
 
@@ -489,6 +495,8 @@ async def portfolio():
     """
 
     return HTMLResponse(content=html_content)
+
+
 # =========================
 # AUTHENTICATION ENDPOINTS
 # =========================
@@ -502,6 +510,7 @@ def register_user(
     user_data: UserCreate,
     db: Session = Depends(get_session)
 ):
+
     # Check username
     existing_user = db.query(User).filter(
         User.username == user_data.username
@@ -551,6 +560,7 @@ def login_user(
     password: str = Form(...),
     db: Session = Depends(get_session)
 ):
+
     user = db.query(User).filter(
         User.username == username
     ).first()
@@ -585,6 +595,7 @@ def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_session)
 ):
+
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -632,6 +643,7 @@ def create_product(
     db: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
+
     product = Product(
         name=product_data.name,
         description=product_data.description,
@@ -654,6 +666,7 @@ def get_products(
     db: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
+
     return db.query(Product).all()
 
 
@@ -666,6 +679,7 @@ def get_product(
     db: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
+
     product = db.query(Product).filter(
         Product.id == product_id
     ).first()
@@ -689,6 +703,7 @@ def update_product(
     db: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
+
     product = db.query(Product).filter(
         Product.id == product_id
     ).first()
@@ -726,6 +741,7 @@ def delete_product(
     db: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
+
     product = db.query(Product).filter(
         Product.id == product_id
     ).first()
